@@ -37,7 +37,7 @@
             - одиночный 6
 
 ### UNSAT
-- **false.cnf** - крайний случай - нет дизъюнктов
+- **false.cnf** - крайний случай - пустой дизъюнкт
 - **sat5.cnf** - полностью отсутствует unit-propagation
 - **unit-propogation.cnf** - unit-propagation хватает чтобы разобрать все
 - **rivest-unsat.cnf** - короткий пример с unit-propagation и выбором переменной
