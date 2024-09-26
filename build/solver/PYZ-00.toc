@@ -296,6 +296,7 @@
   ('urllib.parse',
    'C:\\Users\\beleh\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\urllib\\parse.py',
    'PYMODULE'),
+  ('utils', 'D:\\itmo\\3-sem-2024-2025\\sat-solver\\utils.py', 'PYMODULE'),
   ('zipfile',
    'C:\\Users\\beleh\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\zipfile\\__init__.py',
    'PYMODULE'),
