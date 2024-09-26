@@ -29,10 +29,10 @@ class Tests:
 
     def test_folder(self, folder: str, gold_result: SATSolverResult):
         for entry in os.scandir(os.path.join(self.tests_dir, folder)):
-            print("Solving", entry.path)
             delta_t = self.runner(entry.path)
             result = self.results[entry.path]
-            print(f"Result: {result} and delta: {delta_t}")
+            if result != gold_result:
+                print(f"Wrong result: {result} expected: {gold_result} for: {entry.path}")
 
     def solver(self, tests):
         for folder, gold_result in tests:
@@ -44,4 +44,4 @@ class Tests:
 
 
 if __name__ == "__main__":
-    Tests(TIME_LIMIT=60.0).test_dpll()
+    Tests(TIME_LIMIT=30.0).test_dpll()

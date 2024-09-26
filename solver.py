@@ -13,7 +13,7 @@ class Solver:
         response = self.__solve(self.clauses)
         return response
 
-    def __solve(self, cnf, assignments=[]) -> (SATSolverResult, {}):
+    def __solve(self, cnf, assignments=[]) -> SATSolverResult:
         if self.sigkill.is_set():
             return SATSolverResult.UNKNOWN
 
@@ -41,13 +41,9 @@ class Solver:
         new_cnf = [list(set(c) - {l}) for c in new_cnf]
 
         new_assignments = copy(assignments)
-        new_assignments.append(l)
+        new_assignments.append(-l)
 
-        sat = self.__solve(new_cnf, new_assignments)
-        if sat != SATSolverResult.UNSAT:
-            return sat
-
-        return SATSolverResult.UNSAT
+        return self.__solve(new_cnf, new_assignments)
 
     def __select_literal(self, clauses):
         for c in clauses:
