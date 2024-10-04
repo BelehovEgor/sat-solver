@@ -62,14 +62,16 @@ class Solver:
         flag = True
         while flag:
             flag = False
+            new_clauses = copy(clauses)
             for clause in clauses:
                 if len(clause) == 1:
                     literal = clause[0]
-                    clauses = self.__remove_literal(clauses, literal)
+                    new_clauses = self.__remove_literal(new_clauses, literal)
                     assignment += [literal]
                     flag = True
-                if not clauses:
-                    return clauses, assignment
+                if not new_clauses:
+                    return new_clauses, assignment
+            clauses = new_clauses
         return clauses, assignment
 
     def __pure_literal_elimination(self, clauses, assignment=[]):
@@ -98,12 +100,20 @@ class Solver:
                 continue
 
             if plus[i] and not minus[i]:
-                clauses = self.__remove_literal(clauses, litteral)
+                new_clauses = copy(clauses)
+                for clause in clauses:
+                    if litteral in clause:
+                        new_clauses.remove(clause)
+                clauses = new_clauses
                 assignment += [litteral]
                 continue
 
             if not plus[i] and minus[i]:
-                clauses = self.__remove_literal(clauses, -litteral)
+                new_clauses = copy(clauses)
+                for clause in clauses:
+                    if -litteral in clause:
+                        clauses.remove(clause)
+                clauses = new_clauses
                 assignment += [-litteral]
                 continue
 
