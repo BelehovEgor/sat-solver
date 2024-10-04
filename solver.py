@@ -24,6 +24,14 @@ class Solver:
 
         if any([len(c) == 0 for c in cnf]):
             return SATSolverResult.UNSAT
+        
+        cnf, assignments = self.__pure_literal_elimination(cnf, assignments)
+
+        if len(cnf) == 0:
+            return SATSolverResult.SAT
+
+        if any([len(c) == 0 for c in cnf]):
+            return SATSolverResult.UNSAT
 
         l = self.__select_literal(cnf)
 
@@ -62,6 +70,43 @@ class Solver:
                     flag = True
                 if not clauses:
                     return clauses, assignment
+        return clauses, assignment
+
+    def __pure_literal_elimination(self, clauses, assignment=[]):
+        assignment_len = -1
+        while assignment_len != len(assignment):
+            clauses, assignment = self.__pure_literal_elimination_it(clauses, assignment)
+            assignment_len = len(assignment)
+
+        return clauses, assignment
+
+    def __pure_literal_elimination_it(self, clauses, assignment=[]):
+        plus = [False] * self.variables_count
+        minus = [False] * self.variables_count
+
+        for clause in clauses:
+            for c in clause:
+                if c > 0:
+                    plus[c - 1] = True
+                else:
+                    minus[abs(c) - 1] = True
+
+        for i in range(0, self.variables_count):
+            litteral = i + 1
+
+            if litteral in assignment:
+                continue
+
+            if plus[i] and not minus[i]:
+                clauses = self.__remove_literal(clauses, litteral)
+                assignment += [litteral]
+                continue
+
+            if not plus[i] and minus[i]:
+                clauses = self.__remove_literal(clauses, -litteral)
+                assignment += [-litteral]
+                continue
+
         return clauses, assignment
 
     def __remove_literal(self, clauses, literal):

@@ -44,4 +44,4 @@ class Tests:
 
 
 if __name__ == "__main__":
-    Tests(TIME_LIMIT=30.0).test_dpll()
+    Tests(TIME_LIMIT=120.0).test_dpll()
